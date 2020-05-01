@@ -6,7 +6,7 @@ metadata = YAML.load_file('metadata.yml')
 
 desc 'Cleans the build artifacts'
 task :clean do
-  FileUtils.rm_r Dir.glob('public/**/*.{gif|json|jpg}')
+  FileUtils.rm_r Dir.glob('public/**/*.{gif,json,jpg}')
 end
 
 desc 'Copies the assets present in metadata to public folder'
@@ -28,7 +28,7 @@ FileList['static/gifs/*.gif'].each do |source|
   end
 
   file preview => source do
-    `convert #{source}[0] #{preview}`
+    `convert #{source}[0] -resize 400x400 -background Black -gravity center -extent 400x400 #{preview} `
   end
 
   task assets: target
